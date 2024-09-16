@@ -77,4 +77,5 @@ Seperate different "screens in to their own components
 use routing to allow pathign between the different "screens"
 breakdown whats used into reusable components ie MessageComponent for the each message "bubble", Chat box and button into a single component
 
-Use axios to make requests
+use axios to make a call to get conversations?
+use a websocket library to make requests while in message view: such as socket.io
