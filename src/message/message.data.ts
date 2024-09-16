@@ -11,6 +11,10 @@ import { MessageDto, GetMessageDto } from './models/message.dto';
 import { ObjectID } from 'mongodb';
 import { createRichContent } from './utils/message.helper';
 import { MessageGroupedByConversationOutput } from '../conversation/models/messagesFilterInput';
+import {
+  Tag,
+  TagType,
+} from '../conversation/models/CreateChatConversation.dto';
 
 @Injectable()
 export class MessageData {
@@ -40,6 +44,62 @@ export class MessageData {
     const message = await this.chatMessageModel.findById(messageId);
     if (!message) throw new Error('Message not found');
     return chatMessageToObject(message);
+  }
+
+  async getMessageByTagId(tagId: string): Promise<ChatMessageModel[]> {
+    const messages = await this.chatMessageModel.find({
+      'richContent.tags': {
+        $elemMatch: { id: tagId },
+      },
+    });
+    if (!messages || messages.length === 0) {
+      throw new Error('No messages found for the given tag');
+    }
+
+    return messages.map(chatMessageToObject);
+  }
+
+  async getMessageByTagType(tagId: TagType): Promise<ChatMessageModel[]> {
+    const messages = await this.chatMessageModel.find({
+      'richContent.tags': {
+        $elemMatch: { type: tagId },
+      },
+    });
+    if (!messages || messages.length === 0) {
+      throw new Error('No messages found for the given tag');
+    }
+
+    return messages.map(chatMessageToObject);
+  }
+
+  async getMessageByTag(tag: Tag): Promise<ChatMessageModel[]> {
+    const messages = await this.chatMessageModel.find({
+      'richContent.tags': {
+        $elemMatch: { id: tag },
+      },
+    });
+    if (!messages || messages.length === 0) {
+      throw new Error('No messages found for the given tag');
+    }
+
+    return messages.map(chatMessageToObject);
+  }
+
+  async getMessageByTags(tags: Tag[]): Promise<ChatMessageModel[]> {
+    const query: FilterQuery<ChatMessageDocument> = {
+      $or: tags.map((tag) => ({
+        'richContent.tags': {
+          $elemMatch: tag,
+        },
+      })),
+    };
+
+    const messages = await this.chatMessageModel.find(query);
+    if (!messages || messages.length === 0) {
+      throw new Error('No messages found for the given tags');
+    }
+
+    return messages.map(chatMessageToObject);
   }
 
   async getChatConversationMessages(

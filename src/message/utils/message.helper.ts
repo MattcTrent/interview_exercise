@@ -56,4 +56,11 @@ export function createRichContent(
       poll: data.richContent.poll,
     };
   }
+
+  if (data.richContent.tags) {
+    chatMessage.richContent = {
+      ...(chatMessage.richContent || {}),
+      tags: data.richContent.tags,
+    };
+  }
 }
