@@ -3,7 +3,8 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ObjectID } from 'mongodb';
 import { AttachmentType, GifType } from './message.dto';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Tag } from '../../conversation/models/CreateChatConversation.dto';
+import { TagType } from '../../conversation/models/CreateChatConversation.dto';
+import { MessageTag } from './message.entity';
 
 @Schema()
 export class ReplyMessage {
@@ -100,9 +101,11 @@ export class RichMessageContent {
   poll?: Poll;
 
   @Prop({
-    default: [],
+    type: String,
+    required: true,
+    enum: TagType,
   })
-  tags?: Tag[];
+  tags?: MessageTag[];
 }
 
 @Schema()

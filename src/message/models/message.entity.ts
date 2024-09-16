@@ -4,7 +4,7 @@ import { UserField, MessageSender } from '../../user/models/user.model';
 import { ChatConversation } from '../../conversation/models/ChatConversation.entity';
 import { AttachmentType, GifType } from './message.dto';
 import { Reaction } from './message.model';
-import { Tag } from '../../conversation/models/CreateChatConversation.dto';
+import { TagType } from '../../conversation/models/CreateChatConversation.dto';
 
 class ReplyMessageSocket {
   text?: string;
@@ -85,6 +85,15 @@ export class Poll {
 }
 
 @ObjectType()
+export class MessageTag {
+  @Field()
+  id: string;
+
+  @Field(() => TagType)
+  type: TagType;
+}
+
+@ObjectType()
 export class RichMessageContent {
   @Field(() => ReplyMessage, { nullable: true })
   reply?: ReplyMessage;
@@ -101,8 +110,8 @@ export class RichMessageContent {
   @Field(() => Poll, { nullable: true })
   poll?: Poll;
 
-  @Field(() => [Tag], { nullable: true })
-  tags?: Tag[];
+  @Field(() => [MessageTag], { nullable: true })
+  tags?: MessageTag[];
 }
 
 @ObjectType()

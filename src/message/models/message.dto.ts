@@ -6,7 +6,7 @@ import {
   registerEnumType,
 } from '@nestjs/graphql';
 import { ObjectID } from 'mongodb';
-import { Tag } from '../../conversation/models/CreateChatConversation.dto';
+import { TagType } from '../../conversation/models/CreateChatConversation.dto';
 
 export enum GifType {
   Gif = 'gif',
@@ -15,6 +15,10 @@ export enum GifType {
 
 registerEnumType(GifType, {
   name: 'GifType',
+});
+
+registerEnumType(TagType, {
+  name: 'TagType',
 });
 
 @InputType()
@@ -92,6 +96,15 @@ export class PollDto {
 }
 
 @InputType()
+export class MessageTagDto {
+  @Field(() => String)
+  id: string;
+
+  @Field(() => [TagType])
+  type: TagType;
+}
+
+@InputType()
 export class RichContentDto {
   @Field(() => ReplyMessageDto, { nullable: true })
   reply?: ReplyMessageDto;
@@ -108,8 +121,8 @@ export class RichContentDto {
   @Field(() => PollDto, { nullable: true })
   poll?: PollDto;
 
-  @Field(() => [Tag], { nullable: true })
-  tags?: Tag[];
+  @Field(() => [MessageTagDto], { nullable: true })
+  tags?: MessageTagDto[];
 }
 
 @InputType()
