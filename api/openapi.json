@@ -907,6 +907,24 @@
                     "allowMultipleAnswers"
                 ]
             },
+            "MessageTag": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "subTopic"
+                        ]
+                    }
+                },
+                "required": [
+                    "id",
+                    "type"
+                ]
+            },
             "RichMessageContent": {
                 "type": "object",
                 "properties": {
@@ -930,6 +948,12 @@
                     },
                     "poll": {
                         "$ref": "#/components/schemas/Poll"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MessageTag"
+                        }
                     }
                 }
             },

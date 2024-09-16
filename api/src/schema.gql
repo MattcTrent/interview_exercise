@@ -23,12 +23,6 @@ enum ContextType {
   isNewsFeedConversation
 }
 
-type Reaction {
-  reaction: String!
-  reactionUnicode: String!
-  userIds: [String!]!
-}
-
 type ChatConversation {
   id: ID!
   unreadMessageCount: Int
@@ -87,12 +81,22 @@ type Poll {
   allowMultipleAnswers: Boolean!
 }
 
+type MessageTag {
+  id: String!
+  type: TagType!
+}
+
+enum TagType {
+  subTopic
+}
+
 type RichMessageContent {
   reply: ChatMessage
   giphy: Giphy
   images: [Image!]
   attachments: [Attachment!]
   poll: Poll
+  tags: [MessageTag!]
 }
 
 type ChatMessage {
@@ -117,6 +121,12 @@ scalar DateTime
 type PaginatedChatMessages {
   messages: [ChatMessage!]!
   hasMore: Boolean!
+}
+
+type Reaction {
+  reaction: String!
+  reactionUnicode: String!
+  userIds: [String!]!
 }
 
 type LastRead {
@@ -189,6 +199,7 @@ input RichContentDto {
   images: [ImageDto!]
   attachments: [AttachmentDto!]
   poll: PollDto
+  tags: [MessageTagDto!]
 }
 
 input ReplyMessageDto {
@@ -223,6 +234,11 @@ input PollDto {
 input PollOptionDto {
   option: String!
   votes: [ObjectId!] = []
+}
+
+input MessageTagDto {
+  id: String!
+  type: [TagType!]!
 }
 
 input DeleteMessageDto {
