@@ -72,3 +72,9 @@ Trying to load too many message at once could make it slow, this can be limited 
     - at each step checking the user can see what is expected, ie after sending, the message should appear within the Chat section
 
 ## What you might do differently, with the UI or the API.
+
+Seperate different "screens in to their own components
+use routing to allow pathign between the different "screens"
+breakdown whats used into reusable components ie MessageComponent for the each message "bubble", Chat box and button into a single component
+
+Use axios to make requests
