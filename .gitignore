@@ -1,7 +1,7 @@
 # compiled output
 .vscode
-/dist
-/node_modules
+**/dist
+**/node_modules
 
 # Logs
 logs
